@@ -1,0 +1,104 @@
+{
+  "date": "2026-04-02",
+  "simulated_at": "2026-04-02T17:21:18.862495",
+  "mode": "heuristic",
+  "personas_used": 10,
+  "rounds": 2,
+  "variants": {
+    "D": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 2,
+      "avg_thread_depth": 1.0,
+      "save_count": 7,
+      "like_count": 9,
+      "share_count": 0,
+      "avg_dwell_seconds": 65.8,
+      "debate_heat": 0.0,
+      "composite_score": 1.0,
+      "top_comments": [
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 52,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 52,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "SAVE",
+          "probability": 55,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "SAVE",
+          "probability": 55,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 82,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 82,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 45,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 45,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 80,
+          "dwell_seconds": 105,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 105,
+          "comment_text": null
+        }
+      ]
+    }
+  },
+  "winner": "D",
+  "ranking": [
+    {
+      "variant": "D",
+      "composite": 1.0
+    }
+  ]
+}
