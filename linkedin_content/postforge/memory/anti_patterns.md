@@ -40,3 +40,24 @@ Each entry:
 **Pattern to avoid:** [Abstracted rule]
 **Evidence:** [The hook/structure/timing that failed]
 ```
+
+
+## Data-Driven Anti-Patterns (Sprint Review)
+
+### 2026-04-02 — 2.88%
+**What went wrong:** Underperformed prediction
+**Hook:** "78M Indian MSMEs. Under 5% use AI agents. Here's a 5-step framework to go from 'I use ChatGPT' to 'AI runs my operations.'"
+**Format:** carousel
+**Pattern to avoid:** Framework type with this hook structure underperformed
+
+### 2026-04-02 — 3.45%
+**What went wrong:** Underperformed prediction
+**Hook:** "$500 billion. That's the AI opportunity sitting inside India's 78.3 million MSMEs, according to the World Economic Forum."
+**Format:** text
+**Pattern to avoid:** Data Story type with this hook structure underperformed
+
+### 2026-04-02 — 2.85%
+**What went wrong:** Underperformed prediction
+**Hook:** "97% of Indian SMB leaders say they use AI. The real number doing anything meaningful with it? Under 5%."
+**Format:** text
+**Pattern to avoid:** Contrarian Take type with this hook structure underperformed

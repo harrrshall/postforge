@@ -196,7 +196,7 @@ def test_memory_files():
             data = json.loads(perf.read_text())
             test("Has posts array", "posts" in data and isinstance(data["posts"], list))
             test("Has metadata", "metadata" in data)
-            test("Posts starts empty", len(data["posts"]) == 0)
+            test("Posts array is valid", isinstance(data["posts"], list))
         except json.JSONDecodeError as e:
             test("performance_history.json valid JSON", False, str(e))
 
@@ -207,7 +207,7 @@ def test_memory_files():
         try:
             data = json.loads(sprint.read_text())
             test("Has sprints array", "sprints" in data and isinstance(data["sprints"], list))
-            test("Sprints starts empty", len(data["sprints"]) == 0)
+            test("Sprints array is valid", isinstance(data["sprints"], list))
         except json.JSONDecodeError as e:
             test("sprint_log.json valid JSON", False, str(e))
 

@@ -1,10 +1,140 @@
 {
-  "posts": [],
+  "posts": [
+    {
+      "post_id": "2026-04-02-D",
+      "date_posted": "2026-04-02",
+      "variant_type": "Framework",
+      "format": "carousel",
+      "pillar": "framework",
+      "hook_text": "78M Indian MSMEs. Under 5% use AI agents. Here's a 5-step framework to go from 'I use ChatGPT' to 'AI runs my operations.'",
+      "posting_time": "manual entry",
+      "predicted": {
+        "impressions_range": "6000-16000",
+        "engagement_rate_range": "5.0-7.5%",
+        "expected_comments": "12-24",
+        "expected_saves": "22-45",
+        "first_hour_velocity": "6-12 comments",
+        "viral_potential": "HIGH"
+      },
+      "actual_24h": {
+        "impressions": 8500,
+        "likes": 180,
+        "comments": 22,
+        "saves": 35,
+        "shares": 8,
+        "profile_visits": 45,
+        "engagement_rate": "2.88%",
+        "first_hour_comments": 15,
+        "comment_quality": "substantive"
+      },
+      "actual_7d": null,
+      "prediction_accuracy": {
+        "engagement_rate": 0.4611764705882353,
+        "comments": 0.7777777777777778,
+        "saves": 0.9552238805970149
+      },
+      "outcome": "UNDERPERFORMED",
+      "dimension_scores_at_time": {
+        "hook_strength": 84,
+        "save_worthiness": 93,
+        "comment_worthiness": 80,
+        "dwell_time_potential": 90,
+        "voice_authenticity": 80,
+        "algorithm_compliance": 95
+      }
+    },
+    {
+      "post_id": "2026-04-02-B",
+      "date_posted": "2026-04-02",
+      "variant_type": "Data Story",
+      "format": "text",
+      "pillar": "proof",
+      "hook_text": "$500 billion. That's the AI opportunity sitting inside India's 78.3 million MSMEs, according to the World Economic Forum.",
+      "posting_time": "manual entry",
+      "predicted": {
+        "impressions_range": "5000-13000",
+        "engagement_rate_range": "3.5-5.5%",
+        "expected_comments": "10-22",
+        "expected_saves": "10-22",
+        "first_hour_velocity": "6-12 comments",
+        "viral_potential": "MEDIUM"
+      },
+      "actual_24h": {
+        "impressions": 12000,
+        "likes": 310,
+        "comments": 38,
+        "saves": 52,
+        "shares": 14,
+        "profile_visits": 60,
+        "engagement_rate": "3.45%",
+        "first_hour_comments": 18,
+        "comment_quality": "substantive"
+      },
+      "actual_7d": null,
+      "prediction_accuracy": {
+        "engagement_rate": 0.7666666666666667,
+        "comments": 0,
+        "saves": 0
+      },
+      "outcome": "UNDERPERFORMED",
+      "dimension_scores_at_time": {
+        "hook_strength": 87,
+        "save_worthiness": 82,
+        "comment_worthiness": 77,
+        "dwell_time_potential": 82,
+        "voice_authenticity": 86,
+        "algorithm_compliance": 93
+      }
+    },
+    {
+      "post_id": "2026-04-02-A",
+      "date_posted": "2026-04-02",
+      "variant_type": "Contrarian Take",
+      "format": "text",
+      "pillar": "shift",
+      "hook_text": "97% of Indian SMB leaders say they use AI. The real number doing anything meaningful with it? Under 5%.",
+      "posting_time": "manual entry",
+      "predicted": {
+        "impressions_range": "4000-10000",
+        "engagement_rate_range": "3.0-5.0%",
+        "expected_comments": "10-22",
+        "expected_saves": "4-10",
+        "first_hour_velocity": "6-12 comments",
+        "viral_potential": "MEDIUM"
+      },
+      "actual_24h": {
+        "impressions": 5500,
+        "likes": 95,
+        "comments": 45,
+        "saves": 12,
+        "shares": 5,
+        "profile_visits": 30,
+        "engagement_rate": "2.85%",
+        "first_hour_comments": 22,
+        "comment_quality": "mixed"
+      },
+      "actual_7d": null,
+      "prediction_accuracy": {
+        "engagement_rate": 0.7136363636363636,
+        "comments": 0,
+        "saves": 0.2857142857142857
+      },
+      "outcome": "UNDERPERFORMED",
+      "dimension_scores_at_time": {
+        "hook_strength": 85,
+        "save_worthiness": 68,
+        "comment_worthiness": 88,
+        "dwell_time_potential": 78,
+        "voice_authenticity": 82,
+        "algorithm_compliance": 92
+      }
+    }
+  ],
   "metadata": {
     "created": "2026-04-02",
-    "total_posts_tracked": 0,
-    "total_engagements": 0,
-    "avg_prediction_accuracy": null,
+    "total_posts_tracked": 3,
+    "total_engagements": 816,
+    "avg_prediction_accuracy": 0.6471598336304218,
     "best_performing_format": null,
     "best_performing_pillar": null
   }
