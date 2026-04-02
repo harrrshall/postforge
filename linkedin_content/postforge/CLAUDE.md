@@ -80,5 +80,22 @@ Primary cluster: **AI agents for Indian business**
 ### Sprint Cycle
 - 3-day sprints (10 sprints in 30 days)
 - Each sprint: generate → publish → track → review → adapt
-- Learning rate: 0.20 (aggressive for hypergrowth)
-- EMA formula: `new_weight = 0.80 * old_weight + 0.20 * actual_correlation`
+- Damped learning rate: 0.10 (<10 posts), 0.15 (10-20), 0.20 (20+)
+- EMA formula: `new_weight = (1 - lr) * old_weight + lr * actual_correlation`
+
+### Automation (CLI + Cron)
+- Pipeline CLI: `python scripts/runner.py <command>`
+  - `status` — system health dashboard
+  - `generate [--auto-select]` — full pipeline, optional simulation-driven auto-pick
+  - `learn <post_id>` — input metrics, update performance history
+  - `sprint-review` — run sprint analysis + weight update
+  - `simulate <path_or_date>` — multi-agent simulation (10 personas, 3 rounds)
+  - `scan` — trend scan
+  - `setup-cron` — install 4 cron jobs
+- Cron jobs (install via `python scripts/setup_cron.py`):
+  - Trend scan: every 4 hours
+  - Sprint review: every 3 days
+  - Voice drift: every 9 days
+  - Daily research: 7 AM
+- Simulation engine: 10 personas with comment thread simulation, composite ranking
+- Self-improvement: auto_learn.py runs every 3 days, updates scoring_weights.json

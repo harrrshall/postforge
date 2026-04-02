@@ -373,6 +373,146 @@ def cmd_sprint_review():
     learner.run()
 
 
+# ─── Simulate Command ───
+
+def cmd_simulate(target: str):
+    """Run multi-agent simulation on a variant or all variants for a date."""
+    from simulator import SimulationEngine
+
+    engine = SimulationEngine()
+
+    if Path(target).exists():
+        # Single variant path
+        sim = engine.simulate_variant(target)
+        engine.save_results({sim.variant_id: sim}, get_today(), f"-variant_{sim.variant_id.lower()}")
+    else:
+        # Assume it's a date — simulate all variants
+        results = engine.simulate_all_variants(target)
+        rankings = engine.rank_variants(results)
+
+        print("\n  ─── SIMULATION RANKING ───")
+        for i, (vid, score) in enumerate(rankings):
+            sim = results[vid]
+            print(f"  #{i+1} Variant {vid}: composite={score:.3f} "
+                  f"(saves={sim.metrics.save_count}, comments={sim.metrics.comment_count}, "
+                  f"depth={sim.metrics.avg_thread_depth:.1f})")
+
+        print(f"\n  WINNER: Variant {rankings[0][0]}")
+        engine.save_results(results, target)
+
+
+# ─── Generate Command ───
+
+def cmd_generate(auto_select: bool = False):
+    """Full pipeline: intake → research → write → score → present."""
+    root = get_postforge_root()
+    today = get_today()
+
+    print()
+    print("=" * 60)
+    print("  POSTFORGE GENERATE PIPELINE")
+    print("=" * 60)
+
+    # Check for existing outputs
+    variants_dir = root / "output" / "variants" / today
+    scores_file = root / "output" / "scores" / f"{today}.json"
+
+    if variants_dir.exists() and scores_file.exists():
+        print(f"\n  Content already generated for {today}.")
+        print(f"  Variants: {len(list(variants_dir.glob('variant_*.md')))} files")
+        print(f"  Scores: {scores_file.name}")
+
+        if auto_select:
+            print("\n  Running simulation for auto-select...")
+            from simulator import SimulationEngine
+            engine = SimulationEngine()
+            results = engine.simulate_all_variants(today)
+            rankings = engine.rank_variants(results)
+            engine.save_results(results, today)
+
+            winner_id = rankings[0][0]
+            winner_path = variants_dir / f"variant_{winner_id.lower()}.md"
+            selected_path = root / "output" / "selected" / f"{today}.md"
+
+            import shutil
+            if winner_path.exists():
+                shutil.copy(winner_path, selected_path)
+                print(f"\n  AUTO-SELECTED: Variant {winner_id} (composite: {rankings[0][1]:.3f})")
+                print(f"  Saved to: {selected_path}")
+        else:
+            # Show scores
+            scores = load_scores(today)
+            if scores and "top_3" in scores:
+                print(f"\n  Top 3:")
+                for rank, (key, val) in enumerate(scores["top_3"].items()):
+                    print(f"    #{rank+1} Variant {val['id']}: {val['score']} — {val['why'][:80]}")
+    else:
+        print(f"\n  No content generated for {today} yet.")
+        print("  To generate content, run this command in a Claude Code session")
+        print("  and follow the intake_agent.md → research_agent.md → writer_agent.md → scorer_agent.md flow.")
+        print()
+        print("  Quick guide:")
+        print("    1. Ask Claude to 'Run the intake agent per scripts/intake_agent.md'")
+        print("    2. Then: 'Run the research agent per scripts/research_agent.md'")
+        print("    3. Then: 'Run the writer agent per scripts/writer_agent.md'")
+        print("    4. Then: 'Run the scorer agent per scripts/scorer_agent.md'")
+
+
+# ─── Scan Command ───
+
+def cmd_scan():
+    """Run trend scan."""
+    root = get_postforge_root()
+    now = datetime.now()
+    scan_file = root / "research" / "scan" / f"{now.strftime('%Y-%m-%d-%H%M')}.md"
+
+    print("\n  Trend scanning...")
+    print("  To run a full scan, invoke Claude with scan_agent.md instructions.")
+    print(f"  Scan results will be saved to: {scan_file}")
+    print()
+    print("  For automated scanning, use: python scripts/setup_cron.py")
+
+
+# ─── Auto-Research Command ───
+
+def cmd_auto_research():
+    """Non-interactive daily research (for cron)."""
+    root = get_postforge_root()
+    today = get_today()
+
+    brief_path = root / "research" / "briefs" / f"{today}.md"
+    if brief_path.exists():
+        print(f"  Research brief already exists for {today}: {brief_path}")
+        return
+
+    print(f"  Auto-research: would generate brief for {today}")
+    print("  To run, invoke Claude with research_agent.md instructions.")
+
+
+# ─── Voice Drift Command ───
+
+def cmd_voice_drift():
+    """Check voice drift."""
+    root = get_postforge_root()
+    history = load_performance_history()
+    posts = history.get("posts", [])
+
+    if len(posts) < 3:
+        print(f"  Voice drift check: not enough data ({len(posts)} posts, need 3+)")
+        return
+
+    print(f"  Voice drift check: {len(posts)} posts available")
+    print("  To run full drift analysis, invoke Claude with learn_agent.md Function C.")
+
+
+# ─── Setup Cron Command ───
+
+def cmd_setup_cron():
+    """Install cron jobs."""
+    from setup_cron import install_cron
+    install_cron()
+
+
 # ─── Main CLI ───
 
 def main():
@@ -405,17 +545,21 @@ def main():
     elif command == "sprint-review":
         cmd_sprint_review()
     elif command == "generate":
-        print("Generate command: not yet implemented (Phase 4)")
+        auto_select = "--auto-select" in sys.argv
+        cmd_generate(auto_select)
     elif command == "scan":
-        print("Scan command: not yet implemented (Phase 5)")
+        cmd_scan()
     elif command == "simulate":
-        print("Simulate command: not yet implemented (Phase 3)")
+        if len(sys.argv) < 3:
+            print("Usage: python scripts/runner.py simulate <variant_path_or_date>")
+            sys.exit(1)
+        cmd_simulate(sys.argv[2])
     elif command == "auto-research":
-        print("Auto-research command: not yet implemented (Phase 5)")
+        cmd_auto_research()
     elif command == "voice-drift":
-        print("Voice-drift command: not yet implemented (Phase 5)")
+        cmd_voice_drift()
     elif command == "setup-cron":
-        print("Setup-cron command: not yet implemented (Phase 5)")
+        cmd_setup_cron()
     else:
         print(f"Unknown command: {command}")
         sys.exit(1)
