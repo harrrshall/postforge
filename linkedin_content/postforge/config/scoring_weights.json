@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "last_updated": "2026-04-02",
+  "dimensions": {
+    "hook_strength": {
+      "weight": 0.25,
+      "description": "First 150 chars scroll-stopping power. Curiosity gap, specific number, bold claim, or emotional trigger.",
+      "score_range": [0, 100]
+    },
+    "save_worthiness": {
+      "weight": 0.25,
+      "description": "Bookmark-worthy? Framework, checklist, data, reference value. Saves = 5x reach of a like.",
+      "score_range": [0, 100]
+    },
+    "comment_worthiness": {
+      "weight": 0.20,
+      "description": "Debate potential, experience-sharing CTA, contrarian angle. Comments = 15x a like.",
+      "score_range": [0, 100]
+    },
+    "dwell_time_potential": {
+      "weight": 0.15,
+      "description": "Read time, progressive revelation, content density, formatting for mobile scanning.",
+      "score_range": [0, 100]
+    },
+    "voice_authenticity": {
+      "weight": 0.10,
+      "description": "Matches voice_profile.md. Passes 360Brew AI detection. High lexical diversity.",
+      "score_range": [0, 100]
+    },
+    "algorithm_compliance": {
+      "weight": 0.05,
+      "description": "No external links, no engagement bait, Topic DNA aligned, optimal length for format.",
+      "score_range": [0, 100]
+    }
+  },
+  "learning_rate": 0.20,
+  "total_calibration_posts": 0,
+  "weight_history": [
+    {
+      "version": 1,
+      "date": "2026-04-02",
+      "weights": {
+        "hook_strength": 0.25,
+        "save_worthiness": 0.25,
+        "comment_worthiness": 0.20,
+        "dwell_time_potential": 0.15,
+        "voice_authenticity": 0.10,
+        "algorithm_compliance": 0.05
+      },
+      "reason": "Initial weights based on LinkedIn 2026 algorithm research. Saves boosted to 0.25 (from 0.15 in SYSTEM_DESIGN.md) based on 2026 data showing saves are the #1 ranking signal."
+    }
+  ]
+}
