@@ -62,8 +62,9 @@ def _write_variant(root: Path, llm: LLMClient, ctx: dict, variant_id: str,
     variant_path = variant_dir / f"variant_{variant_id.lower()}.md"
 
     # ─── Prepare prompt ───
-    topic = ctx.get("intake", {}).get("topic", "Unknown topic")
-    goal = ctx.get("intake", {}).get("goal", {}).get("primary", "saves")
+    intake = ctx.get("intake") or {}
+    topic = intake.get("topic", "Unknown topic")
+    goal = intake.get("goal", {}).get("primary", "saves")
     voice_snippet = ctx["voice_profile"][:300] if ctx["voice_profile"] else "Direct, data-driven tone"
 
     variant_prompt = f"""You are a LinkedIn post writer for Indian startup founders and SMB owners.
