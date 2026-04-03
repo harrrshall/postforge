@@ -75,6 +75,8 @@ def _score_with_simulator(root: Path, date: str) -> dict:
         return None
 
     scores_dict = {}
+    variant_files = sorted((root / "output" / "variants" / date).glob("variant_*.md"))
+
     for variant_id, variant_sim in results.items():
         # Extract metrics from VariantSimulation object
         metrics = variant_sim.metrics
@@ -85,13 +87,60 @@ def _score_with_simulator(root: Path, date: str) -> dict:
 
         engagement_rate = (total / 10) * 100 if total > 0 else 0  # Normalize to 0-100
 
+        # Load variant text for signal-based scoring
+        variant_path = root / "output" / "variants" / date / f"variant_{variant_id.lower()}.md"
+        post_text = ""
+        if variant_path.exists():
+            content = variant_path.read_text()
+            in_post = False
+            for line in content.split("\n"):
+                if line.startswith("## Post Text"):
+                    in_post = True
+                    continue
+                elif line.startswith("## ") and in_post:
+                    break
+                elif in_post:
+                    post_text += line + "\n"
+            post_text = post_text.strip().lower()
+
+        # ─── Signal-based voice_authenticity scoring ───
+        ai_slop_patterns = [
+            "in today's fast-paced",
+            "game-changer",
+            "dive deep",
+            "let me break it down",
+            "unlock your potential",
+            "leverage",
+            "synergy",
+            "paradigm shift",
+        ]
+        slop_count = sum(1 for pattern in ai_slop_patterns if pattern in post_text)
+        voice_authenticity_score = max(40, 90 - slop_count * 15)
+        voice_reasoning = f"Penalized for AI-slop patterns ({slop_count} detected)" if slop_count > 0 else "No AI-slop detected"
+
+        # ─── Signal-based algorithm_compliance scoring ───
+        violations = 0
+        violation_details = []
+
+        if post_text and "http://" in post_text or "https://" in post_text:
+            violations += 1
+            violation_details.append("external links in body")
+
+        bait_patterns = ["comment yes", "tag someone", "repost this", "agree?"]
+        if any(pattern in post_text for pattern in bait_patterns):
+            violations += 1
+            violation_details.append("engagement bait detected")
+
+        algorithm_compliance_score = max(50, 95 - violations * 20)
+        compliance_reasoning = f"Violations: {', '.join(violation_details)}" if violation_details else "No violations detected"
+
         scores_dict[variant_id] = {
-            "hook_strength": {"score": min(95, 50 + engagement_rate), "reasoning": "Heuristic score"},
-            "save_worthiness": {"score": min(100, 30 + saves * 5), "reasoning": "Heuristic score"},
-            "comment_worthiness": {"score": min(100, 20 + comments * 3), "reasoning": "Heuristic score"},
-            "dwell_time_potential": {"score": min(100, 40 + engagement_rate * 0.3), "reasoning": "Heuristic score"},
-            "voice_authenticity": {"score": min(85, 70), "reasoning": "Heuristic score"},
-            "algorithm_compliance": {"score": min(95, 85), "reasoning": "Heuristic score"},
+            "hook_strength": {"score": min(95, 50 + engagement_rate), "reasoning": "Based on early engagement"},
+            "save_worthiness": {"score": min(100, 30 + saves * 5), "reasoning": "Simulated save signal"},
+            "comment_worthiness": {"score": min(100, 20 + comments * 3), "reasoning": "Simulated comment signal"},
+            "dwell_time_potential": {"score": min(100, 40 + engagement_rate * 0.3), "reasoning": "Based on avg dwell time"},
+            "voice_authenticity": {"score": int(voice_authenticity_score), "reasoning": voice_reasoning},
+            "algorithm_compliance": {"score": int(algorithm_compliance_score), "reasoning": compliance_reasoning},
         }
 
     return scores_dict

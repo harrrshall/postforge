@@ -16,6 +16,7 @@ import sys
 import json
 import os
 import re
+import random
 from pathlib import Path
 from datetime import datetime
 from dataclasses import dataclass, field, asdict
@@ -186,27 +187,44 @@ def load_personas() -> list[dict]:
 
 # ─── Heuristic Simulation (No API needed) ───
 
+def _maybe(probability: int) -> bool:
+    """Return True based on probability (0-100)."""
+    return random.random() * 100 < probability
+
+
 def heuristic_simulate_persona(persona: dict, post_text: str, post_format: str) -> PersonaReaction:
     """Simulate persona reaction using rule-based heuristics."""
     name = persona["name"]
     text_lower = post_text.lower()
     word_count = len(post_text.split())
 
-    # Score features
+    # Score features (including hook analysis)
+    hook_text = post_text[:150]
+    body_text = post_text[150:]
+
     has_numbers = bool(re.findall(r'[\d₹]+[,.\d]*', post_text))
+    has_numbers_in_hook = bool(re.findall(r'[\d₹]+[,.\d]*', hook_text))
     has_question = "?" in post_text
     has_framework = any(w in text_lower for w in ["step", "framework", "checklist", "how to", "guide"])
     has_bold_claim = any(w in text_lower for w in ["most people", "nobody", "everyone", "wrong", "myth", "truth"])
+    has_bold_claim_in_hook = any(w in hook_text.lower() for w in ["most people", "nobody", "everyone", "wrong", "myth", "truth"])
     has_indian_context = any(w in text_lower for w in ["india", "msme", "rupee", "₹", "whatsapp", "pune", "jaipur", "mumbai"])
+    has_indian_in_hook = any(w in hook_text.lower() for w in ["india", "msme", "rupee", "₹", "whatsapp", "pune", "jaipur", "mumbai"])
     has_data = any(w in text_lower for w in ["%", "million", "billion", "study", "research", "data"])
     is_carousel = post_format == "carousel"
 
-    # Base probabilities by persona type
-    if "founder" in name:
-        if has_numbers and has_indian_context:
+    # Branching by FULL persona name (all 5 paired personas)
+
+    # ─── Busy Founder (Pragmatic) ───
+    if name == "busy_founder_pragmatic":
+        if has_numbers_in_hook and has_indian_in_hook:
             action = "SAVE" if has_framework else "READ"
             prob = 65 if has_framework else 55
             dwell = 35 if action == "SAVE" else 25
+        elif has_numbers and has_indian_context:
+            action = "SAVE" if has_framework else "READ"
+            prob = 60 if has_framework else 50
+            dwell = 30 if action == "SAVE" else 20
         elif has_bold_claim:
             action = "SKIM"
             prob = 50
@@ -216,65 +234,148 @@ def heuristic_simulate_persona(persona: dict, post_text: str, post_format: str) 
             prob = 70
             dwell = 2
 
-    elif "tech_peer" in name:
-        if has_data and has_bold_claim:
+    # ─── Busy Founder (Skeptic) ───
+    elif name == "busy_founder_skeptic":
+        if has_bold_claim_in_hook or has_bold_claim:
             action = "COMMENT"
             prob = 70
+            dwell = 25
+        elif has_numbers and has_indian_context:
+            action = "READ"
+            prob = 55
+            dwell = 15
+        else:
+            action = "SKIP"
+            prob = 75
+            dwell = 2
+
+    # ─── Tech Peer (Builder) ───
+    elif name == "tech_peer_builder":
+        if has_data and has_framework:
+            action = "SAVE"
+            prob = 70
             dwell = 35
-        elif has_framework and has_data:
+        elif has_data and has_bold_claim:
+            action = "COMMENT"
+            prob = 65
+            dwell = 30
+        elif has_framework:
             action = "SAVE"
             prob = 55
-            dwell = 30
+            dwell = 28
         elif has_bold_claim:
             action = "COMMENT"
-            prob = 60
-            dwell = 25
+            prob = 50
+            dwell = 20
         else:
             action = "SKIM"
             prob = 50
             dwell = 12
 
-    elif "aspiring" in name:
+    # ─── Tech Peer (Critic) ───
+    elif name == "tech_peer_critic":
+        if has_bold_claim:
+            action = "COMMENT"
+            prob = 80
+            dwell = 35
+        elif has_data:
+            action = "COMMENT"
+            prob = 65
+            dwell = 25
+        else:
+            action = "SKIP"
+            prob = 60
+            dwell = 5
+
+    # ─── Aspiring SMB (Eager) ───
+    elif name == "aspiring_smb_eager":
         if has_framework and has_indian_context:
             action = "SAVE"
-            prob = 80
+            prob = 85
             dwell = 55
         elif has_numbers and has_indian_context:
             action = "READ"
-            prob = 70
+            prob = 75
             dwell = 40
         elif has_framework:
             action = "SAVE"
-            prob = 65
+            prob = 70
             dwell = 45
         else:
             action = "READ"
-            prob = 55
-            dwell = 30
-
-    elif "contrarian" in name:
-        if has_bold_claim:
-            action = "COMMENT"
-            prob = 85
-            dwell = 40
-        elif has_data:
-            action = "COMMENT"
             prob = 60
             dwell = 30
+
+    # ─── Aspiring SMB (Cautious) ───
+    elif name == "aspiring_smb_cautious":
+        if has_numbers and has_indian_context:
+            action = "SAVE"
+            prob = 75
+            dwell = 45
+        elif has_framework:
+            action = "READ"
+            prob = 65
+            dwell = 40
+        else:
+            action = "READ"
+            prob = 50
+            dwell = 25
+
+    # ─── Contrarian (Veteran) ───
+    elif name == "contrarian_veteran":
+        if has_bold_claim:
+            action = "COMMENT"
+            prob = 90
+            dwell = 45
+        elif has_data:
+            action = "COMMENT"
+            prob = 65
+            dwell = 35
         else:
             action = "SKIP"
             prob = 55
             dwell = 5
 
-    elif "lurker" in name:
+    # ─── Contrarian (Academic) ───
+    elif name == "contrarian_academic":
+        if has_bold_claim and not has_data:
+            action = "COMMENT"
+            prob = 85
+            dwell = 40
+        elif has_data:
+            action = "SAVE"
+            prob = 60
+            dwell = 35
+        else:
+            action = "SKIP"
+            prob = 70
+            dwell = 5
+
+    # ─── Lurker (Passive) ───
+    elif name == "lurker_passive":
         if is_carousel:
+            action = "READ"
+            prob = 85
+            dwell = 70
+        elif has_framework or has_data:
+            action = "READ"
+            prob = 70
+            dwell = 50
+        else:
+            action = "READ"
+            prob = 60
+            dwell = 30
+
+    # ─── Lurker (Saver) ───
+    elif name == "lurker_saver":
+        if has_framework or has_data:
+            action = "SAVE"
+            prob = 75
+            dwell = 50
+        elif is_carousel:
             action = "READ"
             prob = 80
             dwell = 70
-        elif has_framework or has_data:
-            action = "READ" if "saver" not in name else "SAVE"
-            prob = 65
-            dwell = 45
         else:
             action = "READ"
             prob = 55
@@ -291,19 +392,102 @@ def heuristic_simulate_persona(persona: dict, post_text: str, post_format: str) 
         if action == "READ" and has_framework and "saver" in name or "aspiring" in name:
             action = "SAVE"
 
-    # Generate comment text for COMMENT actions
+    # Generate comment text for COMMENT actions with varied templates
     comment_text = None
     if action == "COMMENT":
-        if "contrarian" in name:
-            comment_text = f"Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
-        elif "tech_peer" in name and "critic" in name:
-            comment_text = f"The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation."
-        elif "tech_peer" in name:
-            comment_text = f"We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases."
-        elif "founder" in name:
-            comment_text = f"What's the actual implementation timeline? We've been looking at automating our clinic's appointment booking."
-        elif "aspiring" in name:
-            comment_text = f"Does this work in Hindi? Most of our customers only communicate in Hindi on WhatsApp."
+        # Extract topic keywords for personalization
+        topic_keywords = []
+        if "whatsapp" in text_lower:
+            topic_keywords.append("WhatsApp")
+        if "clinic" in text_lower or "healthcare" in text_lower:
+            topic_keywords.append("clinic")
+        if "automation" in text_lower:
+            topic_keywords.append("automation")
+        if "python" in text_lower or "code" in text_lower or "api" in text_lower:
+            topic_keywords.append("technical")
+        if "cost" in text_lower or "price" in text_lower or "rupee" in text_lower:
+            topic_keywords.append("cost")
+
+        if name == "busy_founder_skeptic":
+            skeptic_comments = [
+                "This sounds promising but what's the actual ROI? Have you compared against just hiring?",
+                "The numbers look good but what's hidden in the implementation costs?",
+                "Bold claim, but where's the third-party validation? Any case studies with similar contexts?",
+                "Interesting, but we've seen AI projects fail on exactly these assumptions. How do you mitigate?",
+            ]
+            comment_text = random.choice(skeptic_comments)
+
+        elif name == "tech_peer_builder":
+            builder_comments = [
+                "Have you considered the edge cases? The user intent classification is usually where these fail.",
+                "We built something similar using a multi-step prompt chain instead. Performance trade-offs?",
+                "The architecture makes sense but latency on the webhook side could be the bottleneck.",
+                "Schema validation is where most automations break. How are you handling unstructured inputs?",
+            ]
+            comment_text = random.choice(builder_comments)
+
+        elif name == "tech_peer_critic":
+            critic_comments = [
+                "The approach is sound but the claim about 95% accuracy needs methodological rigor. How was that measured?",
+                "Survivorship bias here — you're showing the wins. What's the failure rate in production?",
+                "Correlation between adoption and outcome isn't shown. This could be correlation, not causation.",
+                "The methodology assumes stable input distributions. Real production data is messier than labeled test sets.",
+            ]
+            comment_text = random.choice(critic_comments)
+
+        elif name == "contrarian_veteran":
+            contrarian_comments = [
+                "Everyone's building this, but adoption is the real problem. You're solving a supply problem, not a demand problem.",
+                "This is good, but the real constraint for Indian SMBs isn't tools — it's capital and talent retention.",
+                "Bold vision, but most founders underestimate tribal knowledge and customer relationship costs.",
+                "The shift isn't technical; it's organizational. Tools enable, culture decides.",
+            ]
+            comment_text = random.choice(contrarian_comments)
+
+        elif name == "contrarian_academic":
+            academic_comments = [
+                "Interesting approach, but where's the empirical evidence? Have you conducted a randomized controlled trial?",
+                "The assumptions need validation against real-world data, not synthetic benchmarks.",
+                "This aligns with recent research on automation ROI, but generalizability across domains is limited.",
+                "Good case study, but statistical significance requires larger sample sizes and control groups.",
+            ]
+            comment_text = random.choice(academic_comments)
+
+        elif name == "aspiring_smb_eager":
+            eager_comments = [
+                "This is exactly what we need! Can this work in Hindi? Our team speaks mostly Hindi.",
+                "How much does this cost per month? Is there a demo or trial?",
+                "Does this integrate with our existing WhatsApp Business account?",
+                "What's the training time? Can our staff learn this, or do we need an engineer?",
+            ]
+            comment_text = random.choice(eager_comments)
+
+        elif name == "aspiring_smb_cautious":
+            cautious_comments = [
+                "Interesting, but what's the total cost including setup, training, and support?",
+                "How long before we see ROI? We need numbers before committing.",
+                "Is there vendor lock-in? What if we want to switch platforms later?",
+                "What happens if something breaks? What's the support model?",
+            ]
+            comment_text = random.choice(cautious_comments)
+
+        elif name == "lurker_passive":
+            # Lurkers almost never comment
+            comment_text = None
+
+    # Apply stochastic probability: take action only if probability draw succeeds
+    if not _maybe(prob):
+        # Fallback: downgrade action to a lower-engagement level
+        if action in ("SAVE", "SHARE"):
+            action = "LIKE"
+        elif action in ("COMMENT", "LIKE"):
+            action = "READ"
+        elif action == "READ":
+            action = "SKIM"
+        elif action == "SKIM":
+            action = "SKIP"
+        comment_text = None  # Remove comment if action downgraded
+        dwell = max(2, dwell // 2)  # Reduce dwell time
 
     reasoning = f"{persona['display']}: {'stops for' if action != 'SKIP' else 'skips'} — {persona['stops_for'] if action != 'SKIP' else persona['skip_threshold']}"
 
@@ -513,7 +697,7 @@ class SimulationEngine:
         """Calculate aggregate metrics from reactions and threads."""
         comment_count = sum(1 for r in reactions if r.action == "COMMENT")
         save_count = sum(1 for r in reactions if r.action == "SAVE")
-        like_count = sum(1 for r in reactions if r.action in ("LIKE", "COMMENT", "SAVE", "SHARE"))
+        like_count = sum(1 for r in reactions if r.action == "LIKE")
         share_count = sum(1 for r in reactions if r.action == "SHARE")
 
         dwell_times = [r.dwell_seconds for r in reactions if r.dwell_seconds > 0]

@@ -7,6 +7,7 @@ never touching production data.
 
 import json
 import sys
+import random
 from pathlib import Path
 
 import pytest
@@ -23,6 +24,8 @@ if str(SCRIPTS_DIR) not in sys.path:
 @pytest.fixture
 def postforge_root(tmp_path, monkeypatch):
     """Create full PostForge directory tree in tmp_path and monkeypatch root."""
+    random.seed(42)  # Deterministic behavior for stochastic simulator tests
+
     dirs = [
         "config", "config/voice_samples",
         "memory",
