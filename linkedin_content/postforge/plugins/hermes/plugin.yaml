@@ -1,0 +1,14 @@
+name: postforge
+version: 1.0.0
+description: PostForge — self-improving LinkedIn content engine. Generate variants, simulate audience reactions, score posts, learn from metrics, and run sprint reviews.
+author: Harshal Singh
+provides_tools:
+  - postforge_status
+  - postforge_generate
+  - postforge_simulate
+  - postforge_learn
+  - postforge_sprint_review
+  - postforge_scores
+  - postforge_read_variant
+provides_hooks:
+  - post_tool_call
