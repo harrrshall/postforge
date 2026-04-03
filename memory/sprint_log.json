@@ -1,0 +1,41 @@
+{
+  "sprints": [
+    {
+      "sprint_number": 1,
+      "dates": "2026-04-02 to 2026-04-02",
+      "posts_published": 3,
+      "total_engagements": 816,
+      "avg_engagement_rate": "3.1%",
+      "best_performing": {
+        "post_id": "2026-04-02-B",
+        "engagement_rate": "3.5%",
+        "why": "Data Story text"
+      },
+      "worst_performing": {
+        "post_id": "2026-04-02-A",
+        "engagement_rate": "2.9%",
+        "why": "Contrarian Take text"
+      },
+      "scoring_weight_changes": {
+        "hook_strength": "-0.0082",
+        "save_worthiness": "-0.0090",
+        "comment_worthiness": "-0.0040",
+        "dwell_time_potential": "+0.0014",
+        "voice_authenticity": "+0.0063",
+        "algorithm_compliance": "+0.0134"
+      },
+      "patterns_extracted": {
+        "winning_hooks": 0,
+        "anti_patterns": 3
+      },
+      "prediction_accuracy_this_sprint": 0.65,
+      "learning_rate_used": 0.1
+    }
+  ],
+  "metadata": {
+    "created": "2026-04-02",
+    "total_sprints": 1,
+    "sprint_duration_days": 3,
+    "current_sprint": 1
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "default_provider": "anthropic",
+  "providers": {
+    "anthropic": {
+      "sdk": "anthropic",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "models": {
+        "reasoning": "claude-opus-4-6",
+        "writing": "claude-sonnet-4-6",
+        "fast": "claude-haiku-4-5-20251001"
+      }
+    },
+    "openai": {
+      "sdk": "openai",
+      "api_key_env": "OPENAI_API_KEY",
+      "models": {
+        "reasoning": "o3",
+        "writing": "gpt-4.1",
+        "fast": "gpt-4.1-mini"
+      }
+    },
+    "openai_compatible": {
+      "sdk": "openai",
+      "api_key_env": "LLM_API_KEY",
+      "base_url_env": "LLM_BASE_URL",
+      "models": {
+        "reasoning": "default",
+        "writing": "default",
+        "fast": "default"
+      }
+    }
+  }
+}

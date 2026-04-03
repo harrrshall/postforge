@@ -1,0 +1,11 @@
+[project]
+name = "postforge"
+version = "1.0.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "unit: pure logic, no I/O",
+    "integration: cross-component with fixture data",
+    "e2e: full self-improving loop",
+]

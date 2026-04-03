@@ -1,0 +1,572 @@
+{
+  "date": "2026-04-02",
+  "simulated_at": "2026-04-02T17:23:49.682756",
+  "mode": "heuristic",
+  "personas_used": 10,
+  "rounds": 2,
+  "variants": {
+    "A": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 4,
+      "avg_thread_depth": 3.0,
+      "save_count": 1,
+      "like_count": 5,
+      "share_count": 0,
+      "avg_dwell_seconds": 37.0,
+      "debate_heat": 3.2,
+      "composite_score": 0.657,
+      "top_comments": [
+        "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases.",
+        "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "contrarian_veteran: '@tech I see your point, but the data suggests a more nuanced picture. The 60-70%...' → replied to tech_peer_builder",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases."
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation."
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        }
+      ]
+    },
+    "B": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 4,
+      "avg_thread_depth": 3.0,
+      "save_count": 1,
+      "like_count": 5,
+      "share_count": 0,
+      "avg_dwell_seconds": 37.0,
+      "debate_heat": 3.2,
+      "composite_score": 0.657,
+      "top_comments": [
+        "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases.",
+        "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "contrarian_veteran: '@tech I see your point, but the data suggests a more nuanced picture. The 60-70%...' → replied to tech_peer_builder",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases."
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation."
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        }
+      ]
+    },
+    "C": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 2,
+      "avg_thread_depth": 1.0,
+      "save_count": 1,
+      "like_count": 3,
+      "share_count": 0,
+      "avg_dwell_seconds": 30.4,
+      "debate_heat": 0.0,
+      "composite_score": 0.315,
+      "top_comments": [
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "SKIM",
+          "probability": 50,
+          "dwell_seconds": 12,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "SKIM",
+          "probability": 50,
+          "dwell_seconds": 12,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 30,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 30,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        }
+      ]
+    },
+    "D": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 2,
+      "avg_thread_depth": 1.0,
+      "save_count": 7,
+      "like_count": 9,
+      "share_count": 0,
+      "avg_dwell_seconds": 65.8,
+      "debate_heat": 0.0,
+      "composite_score": 0.658,
+      "top_comments": [
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 52,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 52,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "SAVE",
+          "probability": 55,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "SAVE",
+          "probability": 55,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 82,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 82,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 45,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 60,
+          "dwell_seconds": 45,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 80,
+          "dwell_seconds": 105,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 80,
+          "dwell_seconds": 105,
+          "comment_text": null
+        }
+      ]
+    },
+    "E": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 4,
+      "avg_thread_depth": 3.0,
+      "save_count": 1,
+      "like_count": 5,
+      "share_count": 0,
+      "avg_dwell_seconds": 37.0,
+      "debate_heat": 3.2,
+      "composite_score": 0.657,
+      "top_comments": [
+        "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases.",
+        "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "contrarian_veteran: '@tech I see your point, but the data suggests a more nuanced picture. The 60-70%...' → replied to tech_peer_builder",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases."
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation."
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        }
+      ]
+    },
+    "F": {
+      "simulated_engagement_rate": 100.0,
+      "comment_count": 4,
+      "avg_thread_depth": 3.0,
+      "save_count": 1,
+      "like_count": 5,
+      "share_count": 0,
+      "avg_dwell_seconds": 37.0,
+      "debate_heat": 3.2,
+      "composite_score": 0.657,
+      "top_comments": [
+        "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases.",
+        "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology.",
+        "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+      ],
+      "thread_preview": "contrarian_veteran: '@tech I see your point, but the data suggests a more nuanced picture. The 60-70%...' → replied to tech_peer_builder",
+      "reactions": [
+        {
+          "persona": "busy_founder_pragmatic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "busy_founder_skeptic",
+          "action": "READ",
+          "probability": 55,
+          "dwell_seconds": 25,
+          "comment_text": null
+        },
+        {
+          "persona": "tech_peer_builder",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "We've seen similar results deploying WhatsApp automation for a retail chain in Bangalore. The hybrid model is key — 100% AI fails on edge cases."
+        },
+        {
+          "persona": "tech_peer_critic",
+          "action": "COMMENT",
+          "probability": 70,
+          "dwell_seconds": 35,
+          "comment_text": "The data points are compelling but I'd want to see methodology. Correlation between AI deployment and time savings doesn't establish causation."
+        },
+        {
+          "persona": "aspiring_smb_eager",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "aspiring_smb_cautious",
+          "action": "READ",
+          "probability": 70,
+          "dwell_seconds": 40,
+          "comment_text": null
+        },
+        {
+          "persona": "contrarian_veteran",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "contrarian_academic",
+          "action": "COMMENT",
+          "probability": 85,
+          "dwell_seconds": 40,
+          "comment_text": "Interesting take, but this oversimplifies the situation. The real challenge for Indian SMBs isn't awareness — it's implementation complexity and trust in new technology."
+        },
+        {
+          "persona": "lurker_passive",
+          "action": "READ",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        },
+        {
+          "persona": "lurker_saver",
+          "action": "SAVE",
+          "probability": 65,
+          "dwell_seconds": 45,
+          "comment_text": null
+        }
+      ]
+    }
+  },
+  "winner": "D",
+  "ranking": [
+    {
+      "variant": "D",
+      "composite": 0.658
+    },
+    {
+      "variant": "A",
+      "composite": 0.657
+    },
+    {
+      "variant": "B",
+      "composite": 0.657
+    },
+    {
+      "variant": "E",
+      "composite": 0.657
+    },
+    {
+      "variant": "F",
+      "composite": 0.657
+    },
+    {
+      "variant": "C",
+      "composite": 0.315
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/*.log
+
+# Local business files (not part of PostForge)
+frontend/
+humanless_demo/
+law/
+casestudies/
+reddit_content/
+linkedin_content/
+CLAUDE.md.parent.bak
+
+# Generated tool configs (regenerate via: python scripts/generate_tool_configs.py)
+AGENTS.md
+CODEX.md
+.cursorrules
+CONVENTIONS.md
