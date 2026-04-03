@@ -75,11 +75,12 @@ def _score_with_simulator(root: Path, date: str) -> dict:
         return None
 
     scores_dict = {}
-    for variant_id, reactions in results.items():
-        # Map simulator reactions to dimension scores heuristically
-        saves = reactions.get("saves", 0)
-        comments = reactions.get("comments", 0)
-        likes = reactions.get("likes", 0)
+    for variant_id, variant_sim in results.items():
+        # Extract metrics from VariantSimulation object
+        metrics = variant_sim.metrics
+        saves = metrics.save_count
+        comments = metrics.comment_count
+        likes = metrics.like_count
         total = saves + comments + likes
 
         engagement_rate = (total / 10) * 100 if total > 0 else 0  # Normalize to 0-100
