@@ -39,7 +39,8 @@ def postforge_root(tmp_path, monkeypatch):
 
     # Also patch modules that import get_postforge_root via `from config_loader import ...`
     # (Python copies the reference, so patching config_loader alone isn't enough)
-    for mod_name in ["simulator", "auto_learn", "runner", "llm_client"]:
+    for mod_name in ["simulator", "auto_learn", "runner", "llm_client",
+                     "agents.intake", "agents.research", "agents.writer", "agents.scorer"]:
         try:
             mod = __import__(mod_name)
             if hasattr(mod, "get_postforge_root"):

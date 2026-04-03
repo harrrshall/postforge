@@ -1,0 +1,9 @@
+# PostForge — Python dependencies
+# Only 2 optional SDK dependencies; stdlib handles everything else
+
+# Install the SDK for your LLM provider (install just one you need):
+anthropic>=0.40.0   # For Anthropic (Claude models)
+openai>=1.50.0      # For OpenAI, Groq, Mistral, Together, Ollama, Gemini
+
+# Dev / testing only:
+pytest>=8.0.0

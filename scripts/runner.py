@@ -403,8 +403,16 @@ def cmd_simulate(target: str):
 
 # ─── Generate Command ───
 
-def cmd_generate(auto_select: bool = False):
-    """Full pipeline: intake → research → write → score → present."""
+def cmd_generate(auto_select: bool = False, topic: str = "", goal: str = "saves",
+                 format_: str = "text", force: bool = False):
+    """Full pipeline: intake → research → write → score → simulate."""
+    from llm_client import LLMClient
+    from agents.intake import run as run_intake
+    from agents.research import run as run_research
+    from agents.writer import run as run_writer
+    from agents.scorer import run as run_scorer
+    from simulator import SimulationEngine
+
     root = get_postforge_root()
     today = get_today()
 
@@ -413,49 +421,92 @@ def cmd_generate(auto_select: bool = False):
     print("  POSTFORGE GENERATE PIPELINE")
     print("=" * 60)
 
-    # Check for existing outputs
-    variants_dir = root / "output" / "variants" / today
+    llm = LLMClient()
+    if not llm.available:
+        print("\n  LLM unavailable — running in heuristic mode")
+    else:
+        print(f"\n  LLM: {llm.provider_name}")
+
+    # ─── Step 1: Intake ───
+    intake_path = root / "output" / "intakes" / f"{today}.json"
+    if not intake_path.exists() or force:
+        print(f"\n  Step 1: Intake...")
+        try:
+            run_intake(root, llm, today, topic=topic, goal=goal, format_=format_)
+            intake = load_json(intake_path)
+            print(f"    Topic: {intake.get('topic', '?')}")
+            print(f"    Goal: {intake.get('goal', {}).get('primary', '?')}")
+        except Exception as e:
+            print(f"    ERROR: {e}")
+            return
+
+    # ─── Step 2: Research ───
+    brief_path = root / "research" / "briefs" / f"{today}.md"
+    if not brief_path.exists() or force:
+        print(f"\n  Step 2: Research brief...")
+        try:
+            run_research(root, llm, today)
+            print(f"    Brief: {brief_path.name}")
+        except Exception as e:
+            print(f"    ERROR: {e}")
+
+    # ─── Step 3: Write variants ───
+    variant_dir = root / "output" / "variants" / today
+    existing = list(variant_dir.glob("variant_*.md")) if variant_dir.exists() else []
+    if len(existing) < 6 or force:
+        print(f"\n  Step 3: Write {6 - len(existing)} variants...")
+        try:
+            paths = run_writer(root, llm, today)
+            print(f"    Generated {len(paths)} variants")
+        except Exception as e:
+            print(f"    ERROR: {e}")
+
+    # ─── Step 4: Score ───
     scores_file = root / "output" / "scores" / f"{today}.json"
+    if not scores_file.exists() or force:
+        print(f"\n  Step 4: Score variants...")
+        try:
+            run_scorer(root, llm, today)
+            scores = load_scores(today)
+            if scores and "ranking" in scores:
+                print(f"    Ranked {len(scores['ranking'])} variants")
+        except Exception as e:
+            print(f"    ERROR: {e}")
 
-    if variants_dir.exists() and scores_file.exists():
-        print(f"\n  Content already generated for {today}.")
-        print(f"  Variants: {len(list(variants_dir.glob('variant_*.md')))} files")
-        print(f"  Scores: {scores_file.name}")
-
-        if auto_select:
-            print("\n  Running simulation for auto-select...")
-            from simulator import SimulationEngine
-            engine = SimulationEngine()
-            results = engine.simulate_all_variants(today)
+    # ─── Step 5: Simulate (always runs) ───
+    print(f"\n  Step 5: Multi-agent simulation...")
+    try:
+        engine = SimulationEngine(disable_api=True)
+        results = engine.simulate_all_variants(today)
+        if results:
             rankings = engine.rank_variants(results)
             engine.save_results(results, today)
+            print(f"    Simulated {len(results)} variants")
+    except Exception as e:
+        print(f"    ERROR: {e}")
 
-            winner_id = rankings[0][0]
-            winner_path = variants_dir / f"variant_{winner_id.lower()}.md"
+    # ─── Show results ───
+    print("\n" + "=" * 60)
+    scores = load_scores(today)
+    if scores and "top_3" in scores:
+        print("\n  TOP 3 VARIANTS:")
+        for rank, (key, val) in enumerate(scores["top_3"].items()):
+            print(f"    #{rank+1} Variant {val['id']}: {val['score']:.2f} — {val['why']}")
+
+        if auto_select:
+            print("\n  Running auto-select...")
+            winner_id = scores["ranking"][0]
+            winner_path = variant_dir / f"variant_{winner_id.lower()}.md"
             selected_path = root / "output" / "selected" / f"{today}.md"
 
             import shutil
+            selected_path.parent.mkdir(parents=True, exist_ok=True)
             if winner_path.exists():
                 shutil.copy(winner_path, selected_path)
-                print(f"\n  AUTO-SELECTED: Variant {winner_id} (composite: {rankings[0][1]:.3f})")
-                print(f"  Saved to: {selected_path}")
-        else:
-            # Show scores
-            scores = load_scores(today)
-            if scores and "top_3" in scores:
-                print(f"\n  Top 3:")
-                for rank, (key, val) in enumerate(scores["top_3"].items()):
-                    print(f"    #{rank+1} Variant {val['id']}: {val['score']} — {val['why'][:80]}")
-    else:
-        print(f"\n  No content generated for {today} yet.")
-        print("  To generate content, run this in your AI coding tool")
-        print("  and follow the intake_agent.md → research_agent.md → writer_agent.md → scorer_agent.md flow.")
-        print()
-        print("  Quick guide:")
-        print("    1. Ask your AI tool to 'Run the intake agent per scripts/intake_agent.md'")
-        print("    2. Then: 'Run the research agent per scripts/research_agent.md'")
-        print("    3. Then: 'Run the writer agent per scripts/writer_agent.md'")
-        print("    4. Then: 'Run the scorer agent per scripts/scorer_agent.md'")
+                print(f"    AUTO-SELECTED: Variant {winner_id}")
+                print(f"    Saved to: {selected_path}")
+
+    print("=" * 60)
 
 
 # ─── Scan Command ───
@@ -546,7 +597,22 @@ def main():
         cmd_sprint_review()
     elif command == "generate":
         auto_select = "--auto-select" in sys.argv
-        cmd_generate(auto_select)
+        force = "--force" in sys.argv
+        topic = ""
+        goal = "saves"
+        format_ = "text"
+
+        # Parse CLI args: --topic=..., --goal=..., --format=...
+        for arg in sys.argv[2:]:
+            if arg.startswith("--topic="):
+                topic = arg.split("=", 1)[1]
+            elif arg.startswith("--goal="):
+                goal = arg.split("=", 1)[1]
+            elif arg.startswith("--format="):
+                format_ = arg.split("=", 1)[1]
+
+        cmd_generate(auto_select=auto_select, topic=topic, goal=goal,
+                     format_=format_, force=force)
     elif command == "scan":
         cmd_scan()
     elif command == "simulate":

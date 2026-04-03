@@ -28,6 +28,56 @@
         "writing": "default",
         "fast": "default"
       }
+    },
+    "groq": {
+      "sdk": "openai",
+      "api_key_env": "GROQ_API_KEY",
+      "base_url": "https://api.groq.com/openai/v1",
+      "models": {
+        "reasoning": "llama-3.3-70b-versatile",
+        "writing": "llama-3.3-70b-versatile",
+        "fast": "llama-3.1-8b-instant"
+      }
+    },
+    "together": {
+      "sdk": "openai",
+      "api_key_env": "TOGETHER_API_KEY",
+      "base_url": "https://api.together.xyz/v1",
+      "models": {
+        "reasoning": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "writing": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+        "fast": "meta-llama/Llama-3.1-8B-Instruct-Turbo"
+      }
+    },
+    "mistral": {
+      "sdk": "openai",
+      "api_key_env": "MISTRAL_API_KEY",
+      "base_url": "https://api.mistral.ai/v1",
+      "models": {
+        "reasoning": "mistral-large-latest",
+        "writing": "mistral-medium-latest",
+        "fast": "mistral-small-latest"
+      }
+    },
+    "ollama": {
+      "sdk": "openai",
+      "api_key_env": "OLLAMA_API_KEY",
+      "base_url": "http://localhost:11434/v1",
+      "models": {
+        "reasoning": "llama3.3:70b",
+        "writing": "llama3.3:latest",
+        "fast": "llama3.1:8b"
+      }
+    },
+    "gemini": {
+      "sdk": "openai",
+      "api_key_env": "GEMINI_API_KEY",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "models": {
+        "reasoning": "gemini-2.0-flash-thinking-exp",
+        "writing": "gemini-1.5-pro",
+        "fast": "gemini-1.5-flash"
+      }
     }
   }
 }

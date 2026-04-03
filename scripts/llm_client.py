@@ -63,11 +63,15 @@ class LLMClient:
             elif sdk == "openai":
                 import openai
                 kwargs = {"api_key": api_key}
-                base_url_env = provider.get("base_url_env", "")
-                if base_url_env:
-                    base_url = os.environ.get(base_url_env, "")
-                    if base_url:
-                        kwargs["base_url"] = base_url
+                # Support static base_url in config (e.g., Groq, Mistral, Ollama)
+                base_url = provider.get("base_url", "")
+                if not base_url:
+                    # Fall back to base_url_env (env var name)
+                    base_url_env = provider.get("base_url_env", "")
+                    if base_url_env:
+                        base_url = os.environ.get(base_url_env, "")
+                if base_url:
+                    kwargs["base_url"] = base_url
                 self._client = openai.OpenAI(**kwargs)
                 self._sdk_type = "openai"
                 self.available = True

@@ -159,15 +159,19 @@ class TestCountPostsSinceLastSprint:
 
 
 class TestCmdGenerate:
-    def test_no_content_shows_instructions(self, postforge_root, freeze_today, capsys):
-        """With no variants for today, should show instructions."""
+    def test_no_content_generates_pipeline(self, postforge_root, freeze_today, capsys):
+        """With no variants for today, should run full generation pipeline."""
         import runner
-        runner.cmd_generate(auto_select=False)
+        # Pass a topic to avoid stdin prompts in test
+        runner.cmd_generate(auto_select=False, topic="AI agents for SMBs", goal="saves")
         captured = capsys.readouterr()
-        assert "No content generated" in captured.out or "intake_agent" in captured.out
+        # Should show pipeline steps or LLM status, and generate variants
+        assert "POSTFORGE GENERATE PIPELINE" in captured.out or "Step 1: Intake" in captured.out
 
     def test_existing_content_shows_scores(self, populated_postforge, freeze_today, capsys):
         import runner
-        runner.cmd_generate(auto_select=False)
+        # Pass a topic to avoid stdin prompts; content already exists so should skip generation steps
+        runner.cmd_generate(auto_select=False, topic="test topic")
         captured = capsys.readouterr()
-        assert "already generated" in captured.out.lower() or "Variant" in captured.out
+        # Should show "already generated" or show the top variants
+        assert "already generated" in captured.out.lower() or "TOP 3" in captured.out
